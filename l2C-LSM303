@@ -1,12 +1,12 @@
 #include <Wire.h>
 byte x_l = 0;
 byte x_h = 0;
-uint16_t x = 0;
+int x = 0;
 void setup() {
   // put your setup code here, to run once:
   Wire.begin();
 //  setHighResolutionMode();
-//  setSampleRate();
+  setSampleRate();
   Serial.begin(9600);
 }
 
@@ -19,9 +19,9 @@ void loop() {
 //  while(!Wire.available());
   x_l = Wire.read();
   x_h = Wire.read();
-  x = (uint16_t) ((x_h << 8) | (x_l));
+  x = (int) ((x_h << 8) | (x_l));
   Serial.println(x);
-  delay(20);
+  delay(3);
 }
 
 void setHighResolutionMode() {
@@ -33,7 +33,7 @@ void setHighResolutionMode() {
 
 void setSampleRate() {
   Wire.beginTransmission(0x19);
-  Wire.write(0x20);
-  Wire.write(0x47);
+  Wire.write(0x20); //the register
+  Wire.write(0x77); //what you want it to do
   Wire.endTransmission();
 }
